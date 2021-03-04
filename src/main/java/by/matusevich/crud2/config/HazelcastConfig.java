@@ -1,6 +1,7 @@
 package by.matusevich.crud2.config;
 
 import com.hazelcast.config.*;
+import info.jerrinot.subzero.SubZero;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,7 +10,6 @@ import java.util.List;
 
 @Configuration
 public class HazelcastConfig {
-//    [192.168.247.201]:5701
 
     @Bean
     public Config hazelCastConfig() {
@@ -19,7 +19,8 @@ public class HazelcastConfig {
         config.setInstanceName("hazelcast-template");
         config.setPartitionGroupConfig(getPartitionGroupConfig());
         config.setProperty("hazelcast.health.monitoring.level", "NOISY");
-//        config.addMapConfig(getHazelcastMapConfig());
+
+        SubZero.useAsGlobalSerializer(config);
 
         return config;
     }
@@ -35,12 +36,10 @@ public class HazelcastConfig {
         tcpIpConfig.setEnabled(true);
 
         List<String> memberList = new ArrayList<>();
-        memberList.add("127.0.0.1:5703");
+        memberList.add("127.0.0.1:5701");
         tcpIpConfig.setMembers(memberList);
 
         joinConfig.setTcpIpConfig(tcpIpConfig);
-
-        //------------------------------------------
 
         MulticastConfig multicastConfig = new MulticastConfig();
         multicastConfig.setMulticastTimeoutSeconds(30);
@@ -60,35 +59,6 @@ public class HazelcastConfig {
                 .setEnabled(true)
                 .setGroupType(PartitionGroupConfig.MemberGroupType.PER_MEMBER)
                 ;
-
-    }
-
-    private MapConfig getHazelcastMapConfig() {
-
-        MapConfig mapConfig = new MapConfig();
-
-        mapConfig.setName("hazelcast-map-config");
-        mapConfig.setBackupCount(2);
-        mapConfig.setAsyncBackupCount(1);
-
-        mapConfig.setMaxIdleSeconds(3600);
-        mapConfig.setTimeToLiveSeconds(3600);
-        EvictionConfig evictionConfig = new EvictionConfig();
-        evictionConfig.setEvictionPolicy(EvictionPolicy.LRU);
-        evictionConfig.setMaxSizePolicy(MaxSizePolicy.PER_PARTITION);
-        evictionConfig.setSize(1000);
-
-        mapConfig.setEvictionConfig(evictionConfig);
-
-        mapConfig.setMetadataPolicy(MetadataPolicy.CREATE_ON_UPDATE);
-        mapConfig.setReadBackupData(false);
-
-        mapConfig.addEntryListenerConfig(
-                new EntryListenerConfig("com.justayar.springboot.util.MapEntryListener",
-                        true, false));
-
-        return mapConfig;
-
 
     }
 }
