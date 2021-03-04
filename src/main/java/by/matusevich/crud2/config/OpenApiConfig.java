@@ -1,4 +1,4 @@
-package by.matusevich.crud2;
+package by.matusevich.crud2.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -13,8 +13,10 @@ public class OpenApiConfig {
     public OpenAPI customOpenApi() {
         return new OpenAPI()
                 .components(new Components())
-                .info(new Info().title("CRUD-ReST").description(
-                        "Simple crud app"
+                .info(new Info()
+                        .title("CRUD-rest")
+                        .description(
+                        "Simple crud app using spring boot"
                 ));
     }
 }
