@@ -1,4 +1,4 @@
-package by.matusevich.crud2.concurrency;
+package by.matusevich.crud2.concurrency.deadlock;
 
 public class TestThread {
     public static final Object Lock1 = new Object();
