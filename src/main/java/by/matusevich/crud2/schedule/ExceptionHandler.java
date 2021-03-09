@@ -1,6 +1,7 @@
-package by.matusevich.crud2.concurrency.exceptionhandler;
+package by.matusevich.crud2.schedule;
 
 public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
+
     @Override
     public void uncaughtException(Thread t, Throwable e) {
         System.out.printf("An exception has been captured\n");
@@ -9,6 +10,12 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
         System.out.printf("Stack Trace: \n");
         e.printStackTrace(System.out);
         System.out.printf("Thread status: %s\n", t.getState());
-        new Thread(new Task()).start();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException interruptedException) {
+            interruptedException.printStackTrace();
+        }
+        new Thread(new RunnableTask("task")).start();
     }
+
 }

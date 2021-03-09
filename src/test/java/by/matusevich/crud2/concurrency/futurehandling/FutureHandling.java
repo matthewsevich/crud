@@ -11,9 +11,7 @@ public class FutureHandling {
         Future future = executorService.submit(new ChildThread());
         try {
             future.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         } finally {
             if (executorService != null) {

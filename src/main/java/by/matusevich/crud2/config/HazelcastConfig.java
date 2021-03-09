@@ -1,6 +1,7 @@
 package by.matusevich.crud2.config;
 
 import com.hazelcast.config.*;
+import com.hazelcast.config.cp.FencedLockConfig;
 import info.jerrinot.subzero.SubZero;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,14 +22,20 @@ public class HazelcastConfig {
         config.setProperty("hazelcast.health.monitoring.level", "NOISY");
 
         SubZero.useAsGlobalSerializer(config);
+        config.getCPSubsystemConfig()
+                .setCPMemberCount(3)
+                .addLockConfig(new FencedLockConfig("my lock", 2));
+
 
         return config;
     }
 
     private NetworkConfig getHazelcastNetworkConfig() {
 
-        NetworkConfig networkConfig = new NetworkConfig().setPort(5900)
-                .setPortAutoIncrement(false);
+        NetworkConfig networkConfig = new NetworkConfig()
+//                .setPort(5900)
+//                .setPortAutoIncrement(false)
+                ;
 
         JoinConfig joinConfig = new JoinConfig();
         TcpIpConfig tcpIpConfig = new TcpIpConfig();
@@ -57,8 +64,7 @@ public class HazelcastConfig {
 
         return new PartitionGroupConfig()
                 .setEnabled(true)
-                .setGroupType(PartitionGroupConfig.MemberGroupType.PER_MEMBER)
-                ;
+                .setGroupType(PartitionGroupConfig.MemberGroupType.PER_MEMBER);
 
     }
 }

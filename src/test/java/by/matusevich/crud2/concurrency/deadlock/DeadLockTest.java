@@ -1,10 +1,10 @@
 package by.matusevich.crud2.concurrency.deadlock;
 
 
-public class ResolveDeadLockTest {
+public class DeadLockTest {
 
     public static void main(String[] args) {
-        ResolveDeadLockTest test = new ResolveDeadLockTest();
+        DeadLockTest test = new DeadLockTest();
 
         final A a = test.new A();
         final A b = test.new A();
@@ -40,6 +40,5 @@ public class ResolveDeadLockTest {
     }
 
     private class A {
-
     }
 }

@@ -24,9 +24,7 @@ public class CompletableFutureResult {
 
         try {
             combinedFuture.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         String combined = Stream.of(future1, future2, future3)

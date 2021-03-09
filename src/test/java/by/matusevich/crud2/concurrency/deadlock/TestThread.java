@@ -18,7 +18,9 @@ public class TestThread {
 
                 try {
                     Thread.sleep(1000);
-                } catch (InterruptedException e) {}
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 System.out.println("Thread 1: Waiting for lock 2...");
 
                 synchronized (Lock2) {
@@ -27,6 +29,7 @@ public class TestThread {
             }
         }
     }
+
     private static class ThreadDemo2 extends Thread {
         public void run() {
             synchronized (Lock2) {
@@ -34,7 +37,9 @@ public class TestThread {
 
                 try {
                     Thread.sleep(1000);
-                } catch (InterruptedException e) {}
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 System.out.println("Thread 2: Waiting for lock 2...");
 
                 synchronized (Lock1) {
