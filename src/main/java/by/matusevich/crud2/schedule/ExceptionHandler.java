@@ -1,5 +1,8 @@
 package by.matusevich.crud2.schedule;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
 
     @Override
@@ -12,6 +15,11 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
         System.out.printf("Thread status: %s\n", t.getState());
         try {
             Thread.sleep(2000);
+        } catch (InterruptedException interruptedException) {
+            interruptedException.printStackTrace();
+        }
+        try {
+            Thread.sleep(5000);
         } catch (InterruptedException interruptedException) {
             interruptedException.printStackTrace();
         }

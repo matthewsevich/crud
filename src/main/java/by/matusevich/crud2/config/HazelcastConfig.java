@@ -2,6 +2,8 @@ package by.matusevich.crud2.config;
 
 import com.hazelcast.config.*;
 import com.hazelcast.config.cp.FencedLockConfig;
+import com.hazelcast.core.Hazelcast;
+import com.hazelcast.core.HazelcastInstance;
 import info.jerrinot.subzero.SubZero;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,19 +15,25 @@ import java.util.List;
 public class HazelcastConfig {
 
     @Bean
+    public HazelcastInstance instance(){
+        return Hazelcast.newHazelcastInstance(hazelCastConfig());
+    }
+
+    @Bean
     public Config hazelCastConfig() {
         Config config = new Config();
         config.setNetworkConfig(getHazelcastNetworkConfig());
         config.setClusterName("hazelcast-cluster");
         config.setInstanceName("hazelcast-template");
         config.setPartitionGroupConfig(getPartitionGroupConfig());
-        config.setProperty("hazelcast.health.monitoring.level", "NOISY");
+        config.setProperty("hazelcast.health.monitoring.level", "OFF");
 
         SubZero.useAsGlobalSerializer(config);
         config.getCPSubsystemConfig()
                 .setCPMemberCount(3)
-                .addLockConfig(new FencedLockConfig("my lock", 2));
-
+                .addLockConfig(new FencedLockConfig("reentrant-lock", 0))
+                .addLockConfig(new FencedLockConfig("limited-reentrant-lock", 10))
+                .addLockConfig(new FencedLockConfig("non-reentrant-lock", 1));
 
         return config;
     }

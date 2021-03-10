@@ -9,6 +9,7 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
         System.out.printf("Stack Trace: \n");
         e.printStackTrace(System.out);
         System.out.printf("Thread status: %s\n", t.getState());
+
         new Thread(new Task()).start();
     }
 }

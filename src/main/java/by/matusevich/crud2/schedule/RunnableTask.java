@@ -1,6 +1,7 @@
 package by.matusevich.crud2.schedule;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class RunnableTask implements Runnable {
 
@@ -12,7 +13,13 @@ public class RunnableTask implements Runnable {
 
     @Override
     public void run() {
-        System.out.println(new Date() + " Runnable Task with " + message
-                + " on thread " + Thread.currentThread().getName());
+        try {
+            Thread.sleep(TimeUnit.SECONDS.toMillis(25));
+            System.out.println(new Date() + " Runnable Task with " + message
+                    + " on thread " + Thread.currentThread().getName());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 }
