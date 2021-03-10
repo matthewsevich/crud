@@ -21,21 +21,17 @@ public class MultithreadingService {
 
         FencedLock lock = hazelcastInstance.getCPSubsystem().getLock("lock");
         log.error("initialising ");
-        if (!lock.tryLock()) {
+        if (lock.isLocked()) {
             log.error("can not lock");
             return;
         }
         try {
             log.error("tryLock()");
-            scheduler.scheduleAtFixedRate(new RunnableTask("new task, with 25_000 rate"), 20000);
+            scheduler.scheduleAtFixedRate(new RunnableTask("new task, with 25_000 rate", lock), 20000);
 
         } finally {
-            if (lock.isLockedByCurrentThread()) {
-                lock.unlock();
-            }
-            log.error("unlock_finally");
+            log.error("finally");
         }
-        log.error("unlock");
     }
 
 }
