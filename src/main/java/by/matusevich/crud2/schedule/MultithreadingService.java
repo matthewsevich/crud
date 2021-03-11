@@ -28,7 +28,8 @@ public class MultithreadingService {
         try {
             log.error("tryLock()");
             scheduler.scheduleAtFixedRate(new RunnableTask("new task, with 25_000 rate", lock), 20000);
-
+        }catch (Exception e){
+            scheduler.scheduleAtFixedRate(new RunnableTask("new task, after_exception", lock), 20000);
         } finally {
             log.error("finally");
         }
