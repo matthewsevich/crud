@@ -16,15 +16,22 @@ public class MultithreadingService {
     private final HazelcastInstance hazelcastInstance;
     private final ThreadPoolTaskScheduler scheduler;
 
-    @Async
-    public void scheduledThreadPool() {
 
-        FencedLock lock = hazelcastInstance.getCPSubsystem().getLock("lock");
+    FencedLock lock = null;
+
+    public boolean tryLock(){
+        lock=hazelcastInstance.getCPSubsystem().getLock("lock");
         log.error("initialising ");
         if (lock.isLocked()) {
             log.error("can not lock");
-            return;
+            return false;
         }
+        scheduledThreadPool();
+        return true;
+    }
+
+    @Async
+    public void scheduledThreadPool() {
         try {
             log.error("tryLock()");
             scheduler.scheduleAtFixedRate(new RunnableTask("new task, with 25_000 rate", lock), 20000);
