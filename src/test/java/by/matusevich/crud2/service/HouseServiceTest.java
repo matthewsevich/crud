@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 
 import javax.annotation.Resource;
@@ -34,6 +35,7 @@ import static org.mockito.Mockito.*;
 @TestPropertySource(locations = "classpath:applicationTest.properties")
 @Transactional
 @ExtendWith(MockitoExtension.class)
+@DirtiesContext
 class HouseServiceTest {
 
     @Resource

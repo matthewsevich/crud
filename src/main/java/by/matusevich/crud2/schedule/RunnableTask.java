@@ -21,7 +21,7 @@ public class RunnableTask implements Runnable {
     public void run() {
         try {
             lock.lock();
-            log.error("locked");
+            log.info("locked");
             Thread.sleep(TimeUnit.SECONDS.toMillis(25));
             log.info(new Date() + " Runnable Task with " + message
                     + " on thread " + Thread.currentThread().getName());
@@ -30,7 +30,7 @@ public class RunnableTask implements Runnable {
         } finally {
             if (lock.isLockedByCurrentThread()) {
                 lock.unlock();
-                log.error("unlocked");
+                log.info("unlocked");
             }
         }
 
