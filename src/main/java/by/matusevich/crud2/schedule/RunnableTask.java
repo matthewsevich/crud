@@ -23,7 +23,7 @@ public class RunnableTask implements Runnable {
             lock.lock();
             log.error("locked");
             Thread.sleep(TimeUnit.SECONDS.toMillis(25));
-            System.out.println(new Date() + " Runnable Task with " + message
+            log.info(new Date() + " Runnable Task with " + message
                     + " on thread " + Thread.currentThread().getName());
         } catch (InterruptedException e) {
             e.printStackTrace();
