@@ -3,6 +3,7 @@ package by.matusevich.crud2.controller;
 import by.matusevich.crud2.dto.HouseDto;
 import by.matusevich.crud2.service.HouseService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,8 @@ public class HouseController {
 
     @PostMapping("/create")
 
-    @Operation(summary = "create house", description = "create house", tags = {"house"})
+    @Operation(summary = "create house", description = "create house", tags = {"house"},
+    security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<HouseDto> createHouse(HouseDto dto) {
         log.info("create house");
         return ResponseEntity.ok(service.createHouse(dto));
